@@ -31,3 +31,22 @@ def get_zillow_data():
         df.to_csv(filename, index=False)
 
         return df 
+
+def get_iris_data():
+    filename = 'iris.csv'
+    
+    if os.path.isfile(filename):
+        return pd.read_csv(filename)
+    
+    else:
+        sql = """
+        SELECT *
+        FROM measurements
+        JOIN species USING (species_id);
+        """
+
+        df = pd.read_sql(sql, get_db_url('iris_db'))
+
+        df.to_csv(filename, index=False)
+
+        return df 
